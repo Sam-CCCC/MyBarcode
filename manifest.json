@@ -1,15 +1,15 @@
 {
-  "short_name": "BarcodePro",
+  "short_name": "MyBarcode",
   "name": "Professional Barcode & QR Generator",
   "description": "Generate bulk barcodes, QR codes, and PDF417 from Excel or text. Offline supported.",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
@@ -22,4 +22,5 @@
   "theme_color": "#007bff",
   "lang": "zh-CN",
   "orientation": "portrait"
+
 }
