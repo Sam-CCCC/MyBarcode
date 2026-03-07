@@ -117,12 +117,26 @@
     </div>
 </div>
 
+
+
 <div id="print-area">
     <div id="lang-empty-msg" style="color:#aaa; padding: 60px; text-align: center; width: 100%; border: 2px dashed #eee; border-radius: 10px;">
         生成预览将在此处显示
     </div>
 </div>
 
+<div class="setting-item">
+    <label>标题字体 (Font Family):</label>
+    <input type="text" id="titleFont" value="Arial" placeholder="例如: Arial, sans-serif">
+</div>
+<div class="setting-item">
+    <label>标题字号 (Font Size):</label>
+    <input type="number" id="titleSize" value="14" min="8" max="72"> px
+</div>
+
+
+
+	
 <script>
     // 语言字典对象
     const i18n = {
@@ -291,4 +305,5 @@
 </body>
 
 </html>
+
 
