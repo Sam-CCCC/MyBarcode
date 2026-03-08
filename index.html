@@ -1,200 +1,222 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BarcodePro - Professional Label System</title>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BarcodePro Precision v14</title>
+    <script src="https://cdn.jsdelivr.net/npm/bwip-js@3.0.4/dist/bwip-js-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
-        :root { --primary-color: #1a73e8; --bg-color: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 900px; width: 100%; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1 { color: var(--primary-color); text-align: center; }
-        
-        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f1f3f4; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .control-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-weight: bold; font-size: 13px; color: #555; }
-        input, select { padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        
-        .btn-group { grid-column: span 2; display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        button { flex: 1; min-width: 120px; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; color: white; transition: 0.2s; }
-        .btn-gen { background: var(--primary-color); }
-        .btn-excel { background: #34a853; }
-        .btn-config { background: #f4b400; } /* 橙色用于配置操作 */
-        .btn-print { background: #5f6368; }
-        button:hover { opacity: 0.8; }
-
-        #previewArea { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px; }
-        .label-item { border: 1px solid #eee; padding: 15px; background: white; display: flex; flex-direction: column; align-items: center; }
-        
-        @media print { .controls, h1, .btn-group { display: none; } .container { box-shadow: none; width: 100%; } }
+        :root { --primary: #1a73e8; --bg: #f8f9fa; --border: #dadce0; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #202124; }
+        .app-bar { background: #202124; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 1100px; margin: 15px auto; padding: 0 15px; }
+        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .section-title { font-size: 0.8rem; font-weight: 700; color: #5f6368; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.8rem; font-weight: 600; }
+        input, select { padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
+        .format-row { display: grid; grid-template-columns: 140px 1fr; align-items: center; gap: 20px; background: #fcfcfc; padding: 8px; border-radius: 6px; margin-bottom: 5px; }
+        .action-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 20px; }
+        button { padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-blue { background: var(--primary); } .btn-green { background: #34a853; } .btn-gold { background: #fbbc04; color: #202124; } .btn-dark { background: #3c4043; }
+        #previewArea { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; padding-bottom: 50px; }
+        .label-item { background: white; padding: 20px; border: 1px solid #ddd; border-radius: 4px; display: flex; flex-direction: column; align-items: center; min-width: 250px; }
+        .field-box { text-align: center; word-break: break-all; width: 100%; margin: 2px 0; }
+        .canvas-container { display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; margin: 10px 0; }
+        .square-canvas { aspect-ratio: 1 / 1 !important; height: auto !important; }
+        @media print { .app-bar, .card, .action-bar { display: none !important; } .label-item { border: 1px solid #000; page-break-inside: avoid; margin-bottom: 20px; } }
     </style>
 </head>
 <body>
 
+<div class="app-bar"><h1 id="ui-title">BarcodePro v14</h1></div>
+
 <div class="container">
-    <h1>BarcodePro</h1>
+    <div class="card">
+        <div class="section-title" data-i18n="secBasic">Core Content</div>
+        <div class="grid">
+            <div class="input-group">
+                <label data-i18n="lblLang">Language</label>
+                <select id="uiLang" onchange="updateLanguage()">
+                    <option value="en">English</option><option value="zh">中文</option>
+                    <option value="es">Español</option><option value="fr">Français</option>
+                    <option value="de">Deutsch</option><option value="jp">日本語</option><option value="kr">한국어</option>
+                </select>
+            </div>
+            <div class="input-group"><label data-i18n="lblTitle">Main Title</label><input type="text" id="inputText" data-i18n-ph="phTitle"></div>
+            <div class="input-group"><label data-i18n="lblValue">Value</label><input type="text" id="barcodeValue" data-i18n-ph="phValue"></div>
+        </div>
+        <div class="grid" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #eee;">
+            <div class="input-group"><label data-i18n="lblTitleFont">Title Font</label>
+                <select id="titleFont" onchange="saveSettings()">
+                    <option value="Arial">Arial</option><option value="monospace">Mono</option><option value="Impact">Impact</option><option value="serif">Serif</option>
+                </select>
+            </div>
+            <div class="input-group"><label data-i18n="lblTitleSize">Title Size</label><input type="number" id="titleSize" value="18" onchange="saveSettings()"></div>
+        </div>
+    </div>
 
-    <div class="controls">
-        <div class="control-group">
-            <label>标题内容:</label>
-            <input type="text" id="inputText" placeholder="输入标题">
+    <div class="card">
+        <div class="section-title" data-i18n="secTopFields">Top Fields</div>
+        <div class="grid">
+            <div class="input-group"><label data-i18n="lblFT1">Field T1</label><input type="text" id="ft1-val"></div>
+            <div class="input-group"><label data-i18n="lblSize">Size</label><input type="number" id="ft1-size" value="12"></div>
+            <div class="input-group"><label data-i18n="lblFT2">Field T2</label><input type="text" id="ft2-val"></div>
+            <div class="input-group"><label data-i18n="lblSize">Size</label><input type="number" id="ft2-size" value="12"></div>
         </div>
-        <div class="control-group">
-            <label>条码/二维码数值:</label>
-            <input type="text" id="barcodeValue" placeholder="输入数值">
+    </div>
+
+    <div class="card">
+        <div class="section-title" data-i18n="secFormats">Formats & Scaling</div>
+        <div id="formatBox">
+            <div class="format-row"><label><input type="checkbox" data-type="code128" checked> Code 128</label><input type="number" id="scale-code128" value="2" step="0.5"></div>
+            <div class="format-row"><label><input type="checkbox" data-type="pdf417"> PDF417</label><input type="number" id="scale-pdf417" value="2" step="0.5"></div>
+            <div class="format-row"><label><input type="checkbox" data-type="qrcode" checked> QR Code</label><input type="number" id="scale-qrcode" value="3" step="0.5"></div>
+            <div class="format-row"><label><input type="checkbox" data-type="datamatrix"> Data Matrix</label><input type="number" id="scale-datamatrix" value="3" step="0.5"></div>
         </div>
-        <div class="control-group">
-            <label>字体 (Font Family):</label>
-            <select id="titleFont" onchange="saveSettings()">
-                <option value="Arial">Arial</option>
-                <option value="'Courier New', monospace">Monospace</option>
-                <option value="Georgia, serif">Serif</option>
-                <option value="Impact">Impact (Bold)</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>字号 (px):</label>
-            <input type="number" id="titleSize" value="16" onchange="saveSettings()">
-        </div>
-        <div class="control-group">
-            <label>编码类型:</label>
-            <select id="codeType" onchange="saveSettings()">
-                <option value="CODE128">Barcode (128)</option>
-                <option value="QR">QR Code</option>
-            </select>
+    </div>
+
+    <div class="card">
+        <div class="section-title" data-i18n="secBottomFields">Bottom Fields</div>
+        <div class="grid">
+            <div class="input-group"><label data-i18n="lblFB1">Field B1</label><input type="text" id="fb1-val"></div>
+            <div class="input-group"><label data-i18n="lblFB2">Field B2</label><input type="text" id="fb2-val"></div>
+            <div class="input-group"><label data-i18n="lblFB3">Field B3</label><input type="text" id="fb3-val"></div>
         </div>
 
-        <div class="btn-group">
-            <button class="btn-gen" onclick="generateSingle()">生成单个</button>
-            <button class="btn-excel" onclick="document.getElementById('excelInput').click()">导入 Excel</button>
-            <button class="btn-config" onclick="exportConfig()">导出配置</button>
-            <button class="btn-config" onclick="document.getElementById('configInput').click()">导入配置</button>
-            <button class="btn-print" onclick="window.print()">打印标签</button>
+        <div class="action-bar">
+            <button class="btn-blue" onclick="generateSingle()" id="btnGen" data-i18n="btnGen">Generate</button>
+            <button class="btn-green" onclick="document.getElementById('excelInput').click()" id="btnExcel" data-i18n="btnExcel">Excel</button>
+            <button class="btn-gold" onclick="exportConfig()" id="btnExp" data-i18n="btnExp">Export</button>
+            <button class="btn-gold" onclick="document.getElementById('configInput').click()" id="btnImp" data-i18n="btnImp">Import</button>
+            <button class="btn-dark" onclick="window.print()" id="btnPri" data-i18n="btnPri">Print</button>
         </div>
-        
         <input type="file" id="excelInput" accept=".xlsx, .xls" style="display:none" onchange="handleExcel(this)">
         <input type="file" id="configInput" accept=".json" style="display:none" onchange="importConfig(this)">
     </div>
-
     <div id="previewArea"></div>
 </div>
 
 <script>
-    // --- 设置管理逻辑 ---
+    const i18n = {
+        en: { title: "BarcodePro v14", secBasic: "Core Settings", secTopFields: "Top Fields", secFormats: "Formats", secBottomFields: "Bottom Fields", lblLang: "Language", lblTitle: "Main Title", lblValue: "Value", lblTitleFont: "Title Font", lblTitleSize: "Title Size", lblFT1: "Field T1", lblFT2: "Field T2", lblSize: "Size", lblFB1: "Field B1", lblFB2: "Field B2", lblFB3: "Field B3", phTitle: "SKU / Name", phValue: "12345", btnGen: "Generate", btnExcel: "Excel", btnExp: "Export", btnImp: "Import", btnPri: "Print" },
+        zh: { title: "条码大师 v14", secBasic: "核心设置", secTopFields: "页眉字段", secFormats: "格式比例", secBottomFields: "页脚字段", lblLang: "选择语言", lblTitle: "主标题", lblValue: "数值", lblTitleFont: "标题字体", lblTitleSize: "字号", lblFT1: "顶部字段1", lblFT2: "顶部字段2", lblSize: "尺寸", lblFB1: "底部字段1", lblFB2: "底部字段2", lblFB3: "底部字段3", phTitle: "货号/名称", phValue: "输入数值", btnGen: "生成标签", btnExcel: "Excel导入", btnExp: "导出配置", btnImp: "导入配置", btnPri: "打印预览" },
+        es: { title: "BarcodePro v14", secBasic: "Ajustes", secTopFields: "Campos Superiores", secFormats: "Formatos", secBottomFields: "Campos Inferiores", lblLang: "Idioma", lblTitle: "Título", lblValue: "Valor", lblTitleFont: "Fuente", lblTitleSize: "Tamaño", lblFT1: "Campo T1", lblFT2: "Campo T2", lblSize: "Talla", lblFB1: "Campo B1", lblFB2: "Campo B2", lblFB3: "Campo B3", phTitle: "SKU", phValue: "Valor", btnGen: "Generar", btnExcel: "Excel", btnExp: "Exportar", btnImp: "Importar", btnPri: "Imprimir" },
+        fr: { title: "BarcodePro v14", secBasic: "Paramètres", secTopFields: "Champs Supérieurs", secFormats: "Formats", secBottomFields: "Champs Inférieurs", lblLang: "Langue", lblTitle: "Titre", lblValue: "Valeur", lblTitleFont: "Police", lblTitleSize: "Taille", lblFT1: "Champ T1", lblFT2: "Champ T2", lblSize: "Taille", lblFB1: "Champ B1", lblFB2: "Champ B2", lblFB3: "Champ B3", phTitle: "SKU", phValue: "Valeur", btnGen: "Générer", btnExcel: "Excel", btnExp: "Exporter", btnImp: "Importer", btnPri: "Imprimer" },
+        de: { title: "BarcodePro v14", secBasic: "Einstellungen", secTopFields: "Obere Felder", secFormats: "Formate", secBottomFields: "Untere Felder", lblLang: "Sprache", lblTitle: "Titel", lblValue: "Wert", lblTitleFont: "Schriftart", lblTitleSize: "Größe", lblFT1: "Feld T1", lblFT2: "Feld T2", lblSize: "Größe", lblFB1: "Feld B1", lblFB2: "Feld B2", lblFB3: "Feld B3", phTitle: "SKU", phValue: "Wert", btnGen: "Erstellen", btnExcel: "Excel", btnExp: "Export", btnImp: "Import", btnPri: "Drucken" },
+        jp: { title: "バーコードプロ v14", secBasic: "基本設定", secTopFields: "上部フィールド", secFormats: "フォーマット", secBottomFields: "下部フィールド", lblLang: "言語", lblTitle: "タイトル", lblValue: "値", lblTitleFont: "フォント", lblTitleSize: "サイズ", lblFT1: "フィールド T1", lblFT2: "フィールド T2", lblSize: "サイズ", lblFB1: "フィールド B1", lblFB2: "フィールド B2", lblFB3: "フィールド B3", phTitle: "SKU / 名前", phValue: "値", btnGen: "生成", btnExcel: "Excel", btnExp: "エクスポート", btnImp: "インポート", btnPri: "印刷" },
+        kr: { title: "바코드프로 v14", secBasic: "기본 설정", secTopFields: "상단 필드", secFormats: "포맷", secBottomFields: "하단 필드", lblLang: "언어 선택", lblTitle: "제목", lblValue: "값", lblTitleFont: "글꼴", lblTitleSize: "크기", lblFT1: "필드 T1", lblFT2: "필드 T2", lblSize: "크기", lblFB1: "필드 B1", lblFB2: "필드 B2", lblFB3: "필드 B3", phTitle: "품번 / 이름", phValue: "값 입력", btnGen: "라벨 생성", btnExcel: "엑셀 가져오기", btnExp: "설정 내보내기", btnImp: "설정 가져오기", btnPri: "인쇄" }
+    };
 
-    // 页面加载时恢复设置
-    window.onload = function() {
-        const saved = localStorage.getItem('barcodePro_settings');
-        if (saved) {
-            applySettings(JSON.parse(saved));
-        }
+    function updateLanguage() {
+        const lang = document.getElementById('uiLang').value;
+        const d = i18n[lang] || i18n.en;
+        document.getElementById('ui-title').textContent = d.title;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if(d[key]) el.textContent = d[key];
+        });
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+            const key = el.getAttribute('data-i18n-ph');
+            if(d[key]) el.placeholder = d[key];
+        });
+        saveSettings();
     }
 
     function saveSettings() {
-        const settings = {
-            font: document.getElementById('titleFont').value,
-            size: document.getElementById('titleSize').value,
-            type: document.getElementById('codeType').value
+        const formats = {};
+        document.querySelectorAll('#formatBox input[type="checkbox"]').forEach(i => {
+            const type = i.dataset.type;
+            formats[type] = { checked: i.checked, scale: document.getElementById(`scale-${type}`).value };
+        });
+        const s = {
+            lang: document.getElementById('uiLang').value, 
+            tFont: document.getElementById('titleFont').value, tSize: document.getElementById('titleSize').value,
+            formats: formats,
+            top: [{v: document.getElementById('ft1-val').value, s: document.getElementById('ft1-size').value}, {v: document.getElementById('ft2-val').value, s: document.getElementById('ft2-size').value}],
+            bottom: [{v: document.getElementById('fb1-val').value}, {v: document.getElementById('fb2-val').value}, {v: document.getElementById('fb3-val').value}]
         };
-        localStorage.setItem('barcodePro_settings', JSON.stringify(settings));
+        localStorage.setItem('barcodePro_v14_settings', JSON.stringify(s));
     }
 
-    function applySettings(settings) {
-        document.getElementById('titleFont').value = settings.font || 'Arial';
-        document.getElementById('titleSize').value = settings.size || '16';
-        document.getElementById('codeType').value = settings.type || 'CODE128';
-    }
-
-    // 导出配置为 JSON 文件
-    function exportConfig() {
-        const settings = localStorage.getItem('barcodePro_settings');
-        if (!settings) return alert("暂无保存的配置可导出");
-        
-        const blob = new Blob([settings], {type: "application/json"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `BarcodePro_Config_${new Date().toLocaleDateString()}.json`;
-        a.click();
-    }
-
-    // 从 JSON 文件导入配置
-    function importConfig(input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const settings = JSON.parse(e.target.result);
-                applySettings(settings);
-                saveSettings();
-                alert("配置导入成功！");
-            } catch (err) {
-                alert("无效的配置文件");
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    // --- 核心渲染逻辑 (保持不变) ---
-
-    function generateSingle() {
-        const title = document.getElementById('inputText').value;
-        const value = document.getElementById('barcodeValue').value;
-        if(!value) return alert("请输入数值");
-        document.getElementById('previewArea').innerHTML = '';
-        createLabel(title, value);
-    }
-
-    function handleExcel(input) {
-        const file = input.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, {type: 'array'});
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-            document.getElementById('previewArea').innerHTML = '';
-            jsonData.forEach(row => createLabel(row.Title || '', row.Value || ''));
-        };
-        reader.readAsArrayBuffer(file);
+    window.onload = function() {
+        const saved = localStorage.getItem('barcodePro_v14_settings');
+        if (saved) {
+            const s = JSON.parse(saved);
+            document.getElementById('uiLang').value = s.lang || 'en';
+            document.getElementById('titleFont').value = s.tFont || 'Arial';
+            document.getElementById('titleSize').value = s.tSize || '18';
+            if(s.formats) Object.keys(s.formats).forEach(t => { 
+                const cb = document.querySelector(`input[data-type="${t}"]`); 
+                if(cb) cb.checked = s.formats[t].checked; 
+                if(document.getElementById(`scale-${t}`)) document.getElementById(`scale-${t}`).value = s.formats[t].scale; 
+            });
+            if(s.top) s.top.forEach((f,i) => { 
+                if(document.getElementById(`ft${i+1}-val`)) document.getElementById(`ft${i+1}-val`).value = f.v; 
+                if(document.getElementById(`ft${i+1}-size`)) document.getElementById(`ft${i+1}-size`).value = f.s; 
+            });
+            if(s.bottom) s.bottom.forEach((f,i) => { 
+                if(document.getElementById(`fb${i+1}-val`)) document.getElementById(`fb${i+1}-val`).value = f.v; 
+            });
+        }
+        updateLanguage();
     }
 
     function createLabel(title, value) {
-        const container = document.getElementById('previewArea');
-        const wrapper = document.createElement('div');
-        wrapper.className = 'label-item';
+        const area = document.getElementById('previewArea');
+        const item = document.createElement('div');
+        item.className = 'label-item';
 
-        const titleDiv = document.createElement('div');
-        titleDiv.textContent = title;
-        titleDiv.style.fontFamily = document.getElementById('titleFont').value;
-        titleDiv.style.fontSize = document.getElementById('titleSize').value + 'px';
-        titleDiv.style.marginBottom = "5px";
-        wrapper.appendChild(titleDiv);
-
-        const type = document.getElementById('codeType').value;
-        if(type === 'QR') {
-            const canvas = document.createElement('canvas');
-            QRCode.toCanvas(canvas, value, { width: 120, margin: 2 });
-            wrapper.appendChild(canvas);
-        } else {
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            JsBarcode(svg, value, { format: "CODE128", width: 2, height: 60, displayValue: true });
-            wrapper.appendChild(svg);
+        for(let i=1; i<=2; i++) {
+            const v = document.getElementById(`ft${i}-val`).value;
+            if(v) { 
+                const d = document.createElement('div'); d.className = 'field-box'; d.textContent = v; 
+                d.style.fontSize = document.getElementById(`ft${i}-size`).value + 'px'; item.appendChild(d); 
+            }
         }
-        container.appendChild(wrapper);
-    }
-</script>
 
+        const tDiv = document.createElement('div'); tDiv.className = 'field-box'; tDiv.textContent = title; 
+        tDiv.style.fontWeight = 'bold'; tDiv.style.fontFamily = document.getElementById('titleFont').value;
+        tDiv.style.fontSize = document.getElementById('titleSize').value + 'px'; item.appendChild(tDiv);
+
+        const canvasContainer = document.createElement('div'); canvasContainer.className = 'canvas-container';
+        document.querySelectorAll('#formatBox input[type="checkbox"]:checked').forEach(cb => {
+            const type = cb.dataset.type;
+            const sc = parseFloat(document.getElementById(`scale-${type}`).value);
+            const canvas = document.createElement('canvas');
+            const isSq = (type === 'qrcode' || type === 'datamatrix');
+            if(isSq) canvas.className = 'square-canvas';
+
+            const opts = { bcid: type, text: value, scale: sc, includetext: !isSq, textxalign: 'center' };
+            if(type === 'pdf417') { opts.height = 10; opts.width = 40; } // 进一步修正PDF417比例
+            else if(!isSq) { opts.height = 12; }
+
+            try { bwipjs.toCanvas(canvas, opts); canvasContainer.appendChild(canvas); } catch (e) { console.error(e); }
+        });
+        item.appendChild(canvasContainer);
+
+        for(let i=1; i<=3; i++) {
+            const v = document.getElementById(`fb${i}-val`).value;
+            if(v) { const d = document.createElement('div'); d.className = 'field-box'; d.textContent = v; d.style.fontSize = '11px'; item.appendChild(d); }
+        }
+        area.appendChild(item);
+    }
+
+    function generateSingle() { document.getElementById('previewArea').innerHTML = ''; createLabel(document.getElementById('inputText').value, document.getElementById('barcodeValue').value); }
+    function handleExcel(input) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const data = XLSX.utils.sheet_to_json(XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).Sheets[XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).SheetNames[0]]);
+            document.getElementById('previewArea').innerHTML = '';
+            data.forEach(row => createLabel(String(row.Title || ''), String(row.Value || '')));
+        };
+        reader.readAsArrayBuffer(input.files[0]);
+    }
+    function exportConfig() { const s = localStorage.getItem('barcodePro_v14_settings'); const b = new Blob([s], {type: "application/json"}); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `BarcodePro_Config.json`; a.click(); }
+    function importConfig(input) { const reader = new FileReader(); reader.onload = e => { localStorage.setItem('barcodePro_v14_settings', e.target.result); location.reload(); }; reader.readAsText(input.files[0]); }
+</script>
 </body>
 </html>
-
-</html>
-
-
-
