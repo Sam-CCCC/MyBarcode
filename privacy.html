@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>隐私政策 - BarcodePro</title>
+    <title>Privacy Policy - BarcodePro</title>
     <style>
         :root {
             --primary-color: #1a73e8;
@@ -31,26 +31,27 @@
 
         .header h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 500;
         }
 
         .header p {
             margin-top: 10px;
             opacity: 0.8;
+            font-size: 1.1rem;
         }
 
         .container {
-            max-width: 900px;
-            margin: -30px auto 50px;
+            max-width: 850px;
+            margin: -30px auto 60px;
             padding: 0 20px;
         }
 
         .card {
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 45px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border: 1px solid var(--border-color);
         }
 
@@ -60,111 +61,105 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 20px;
             margin-bottom: 30px;
+            font-style: italic;
         }
 
         h2 {
             color: var(--primary-color);
-            font-size: 1.4rem;
-            margin-top: 35px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 18px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
         }
 
-        h2::before {
-            content: "";
-            display: inline-block;
-            width: 4px;
-            height: 20px;
-            background-color: var(--primary-color);
-            margin-right: 12px;
-            border-radius: 2px;
-        }
-
-        p {
+        p, li {
+            font-size: 1.05rem;
             margin-bottom: 16px;
         }
 
         ul {
-            padding-left: 20px;
+            padding-left: 25px;
             margin-bottom: 20px;
         }
 
-        li {
-            margin-bottom: 8px;
+        .highlight {
+            background-color: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
         }
 
         .contact-box {
-            background-color: #e8f0fe;
+            background-color: #f8f9fa;
+            border: 1px dashed var(--primary-color);
             border-radius: 8px;
-            padding: 20px;
-            margin-top: 40px;
-            border-left: 5px solid var(--primary-color);
+            padding: 25px;
+            margin-top: 50px;
         }
 
         .footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             color: #70757a;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 600px) {
-            .card {
-                padding: 20px;
-            }
-            .header h1 {
-                font-size: 1.5rem;
-            }
+            .card { padding: 25px; }
+            .header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>BarcodePro 隐私政策</h1>
-        <p>您的隐私对我们至关重要</p>
+        <h1>Privacy Policy</h1>
+        <p>Transparent data practices for BarcodePro users</p>
     </div>
 
     <div class="container">
         <div class="card">
-            <div class="update-date">最近更新日期：2024年3月</div>
+            <div class="update-date">Last Updated: March 2026</div>
 
-            <p>感谢您使用 <strong>BarcodePro</strong>。本隐私政策旨在帮助您了解我们如何处理您的信息。我们承诺保护您的隐私，并确保提供透明的服务体验。</p>
+            <p>Thank you for choosing <strong>BarcodePro</strong>. Your privacy is our top priority. This Privacy Policy explains how we handle information when you use our application.</p>
 
-            <h2>1. 信息收集</h2>
-            <p><strong>BarcodePro 是一款本地运行的工具应用。</strong></p>
+            <h2>1. Information Collection</h2>
+            <p><strong>BarcodePro is designed as a client-side tool.</strong></p>
             <ul>
-                <li><strong>个人数据：</strong> 我们不收集、不存储也不共享任何个人身份信息。</li>
-                <li><strong>本地存储：</strong> 您的配置参数（如字号、比例、语言设置）存储在您设备浏览器的本地存储（LocalStorage）中。这些数据不会上传到任何服务器。</li>
-                <li><strong>文件访问：</strong> 当您使用 Excel 导入功能时，数据仅在您的浏览器内存中处理，处理完毕后即刻释放。</li>
+                <li><span class="highlight">Personal Data:</span> We do not collect, store, or share any personally identifiable information (PII).</li>
+                <li><span class="highlight">Local Storage:</span> Your configuration settings (such as font size, scaling ratios, and language preferences) are stored locally on your device via <kbd>LocalStorage</kbd>. This data never leaves your device.</li>
+                <li><span class="highlight">Data Processing:</span> When you import Excel files, all processing occurs within your browser's memory. No data is uploaded to any external server.</li>
             </ul>
 
-            <h2>2. 权限说明</h2>
-            <p>应用可能会申请以下权限，仅用于实现特定功能：</p>
+            <h2>2. Permissions and Usage</h2>
+            <p>To provide a full range of features, the app may request the following permissions:</p>
             <ul>
-                <li><strong>存储权限：</strong> 用于保存您导出的条码配置 JSON 文件或保存生成的图片。</li>
-                <li><strong>摄像头权限：</strong>（如果未来加入扫描功能）仅用于条码识别。</li>
+                <li><strong>Storage Access:</strong> Necessary for saving exported JSON configuration files or downloading generated barcode images.</li>
+                <li><strong>Camera Access:</strong> Used exclusively if you utilize scanning features (if available). Images are processed locally and never transmitted.</li>
             </ul>
 
-            <h2>3. 第三方服务</h2>
-            <p>本应用托管在 GitHub Pages 上。GitHub 可能会收集某些标准日志信息（如 IP 地址），此类收集受 GitHub 隐私政策约束。我们本身不集成任何第三方广告跟踪或分析插件。</p>
+            <h2>3. Third-Party Hosting</h2>
+            <p>This application is hosted on <span class="highlight">GitHub Pages</span>. GitHub may collect certain standard log information (such as IP addresses) for security and analytics purposes. This collection is governed by GitHub’s Privacy Policy. We do not integrate any third-party advertisement trackers or analytics SDKs.</p>
 
-            <h2>4. 数据安全性</h2>
-            <p>由于所有数据均保存在您的本地设备上，您的数据安全性取决于您对设备的管理。我们建议您不要在公共设备上存储敏感的条码配置信息。</p>
+            <h2>4. Data Security</h2>
+            <p>Since your data is stored locally, the security of your information depends on the security of your device. We recommend not storing sensitive barcode configurations on shared or public devices.</p>
 
-            <h2>5. 政策更新</h2>
-            <p>我们可能会不时更新本隐私政策。任何更改都将通过在此页面发布新的隐私政策来通知。建议您定期查看此页面。</p>
+            <h2>5. Children's Privacy</h2>
+            <p>Our application does not knowingly collect any information from children under the age of 13. We are committed to complying with COPPA and similar regulations globally.</p>
+
+            <h2>6. Changes to This Policy</h2>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
 
             <div class="contact-box">
-                <strong>联系我们</strong><br>
-                如果您对本隐私政策有任何疑问，请通过以下方式联系：<br>
-                Email: <a href="mailto:sam-cccc@users.noreply.github.com">您的联系邮箱</a>
+                <strong>Contact Us</strong><br>
+                If you have any questions about this Privacy Policy, please contact us at:<br>
+                <p style="margin-top:10px;"><strong>Email:</strong> <a href="mailto:sam-cccc@users.noreply.github.com">sam-cccc@users.noreply.github.com</a></p>
             </div>
         </div>
 
         <div class="footer">
-            &copy; 2024 BarcodePro Project. All Rights Reserved.
+            &copy; 2026 BarcodePro Project. All Rights Reserved.
         </div>
     </div>
 
