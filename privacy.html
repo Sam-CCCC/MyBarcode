@@ -1,24 +1,172 @@
-Privacy Policy
-Last updated: March 2026
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - BarcodePro</title>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --text-color: #3c4043;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --border-color: #dadce0;
+        }
 
-Summary: BarcodePro is a privacy-first utility. We do not collect, store, or share any of your personal data. All data processing happens locally on your device.
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
 
-1. Data Collection and Processing
-BarcodePro is a purely client-side tool. This means all operations—including barcode generation, QR code rendering, and Excel file parsing—occur entirely within your browser or on your device.
+        .header {
+            background-color: #202124;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
 
-No Personal Information: We do not require account registration, and we do not collect any personally identifiable information (PII).
+        .header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 500;
+        }
 
-Data Security: Any data you input manually or import via Excel is processed in your device's temporary memory. This data is NEVER transmitted to our servers or any third parties.
+        .header p {
+            margin-top: 10px;
+            opacity: 0.8;
+        }
 
-2. Device Permissions
-To provide its core features, the Application may require:
+        .container {
+            max-width: 900px;
+            margin: -30px auto 50px;
+            padding: 0 20px;
+        }
 
-File Access/Storage: To allow you to import Excel files and save generated images.
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
 
-Internet Access: For initial loading and Service Worker updates via GitHub Pages.
+        .update-date {
+            font-size: 0.9rem;
+            color: #70757a;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
 
-3. Third-Party Hosting
-Our application is hosted on GitHub Pages. GitHub may collect standard server logs (including IP addresses) for security, which we do not control or access as personal user data.
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
 
-4. Contact Us
-If you have any questions, please contact us via our official repository:Q54184@gmail.com
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: var(--primary-color);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .contact-box {
+            background-color: #e8f0fe;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 40px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #70757a;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>BarcodePro 隐私政策</h1>
+        <p>您的隐私对我们至关重要</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="update-date">最近更新日期：2024年3月</div>
+
+            <p>感谢您使用 <strong>BarcodePro</strong>。本隐私政策旨在帮助您了解我们如何处理您的信息。我们承诺保护您的隐私，并确保提供透明的服务体验。</p>
+
+            <h2>1. 信息收集</h2>
+            <p><strong>BarcodePro 是一款本地运行的工具应用。</strong></p>
+            <ul>
+                <li><strong>个人数据：</strong> 我们不收集、不存储也不共享任何个人身份信息。</li>
+                <li><strong>本地存储：</strong> 您的配置参数（如字号、比例、语言设置）存储在您设备浏览器的本地存储（LocalStorage）中。这些数据不会上传到任何服务器。</li>
+                <li><strong>文件访问：</strong> 当您使用 Excel 导入功能时，数据仅在您的浏览器内存中处理，处理完毕后即刻释放。</li>
+            </ul>
+
+            <h2>2. 权限说明</h2>
+            <p>应用可能会申请以下权限，仅用于实现特定功能：</p>
+            <ul>
+                <li><strong>存储权限：</strong> 用于保存您导出的条码配置 JSON 文件或保存生成的图片。</li>
+                <li><strong>摄像头权限：</strong>（如果未来加入扫描功能）仅用于条码识别。</li>
+            </ul>
+
+            <h2>3. 第三方服务</h2>
+            <p>本应用托管在 GitHub Pages 上。GitHub 可能会收集某些标准日志信息（如 IP 地址），此类收集受 GitHub 隐私政策约束。我们本身不集成任何第三方广告跟踪或分析插件。</p>
+
+            <h2>4. 数据安全性</h2>
+            <p>由于所有数据均保存在您的本地设备上，您的数据安全性取决于您对设备的管理。我们建议您不要在公共设备上存储敏感的条码配置信息。</p>
+
+            <h2>5. 政策更新</h2>
+            <p>我们可能会不时更新本隐私政策。任何更改都将通过在此页面发布新的隐私政策来通知。建议您定期查看此页面。</p>
+
+            <div class="contact-box">
+                <strong>联系我们</strong><br>
+                如果您对本隐私政策有任何疑问，请通过以下方式联系：<br>
+                Email: <a href="mailto:sam-cccc@users.noreply.github.com">您的联系邮箱</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; 2024 BarcodePro Project. All Rights Reserved.
+        </div>
+    </div>
+
+</body>
+</html>
