@@ -20,7 +20,8 @@
   "display": "standalone",
   "scope": "/",
   "theme_color": "#007bff",
-  "lang": "zh-CN",
+  "lang": "en-US",
   "orientation": "portrait"
 
 }
+
