@@ -1,38 +1,44 @@
-# BarcodePro - Professional Label System V6.1
+BarcodePro Global v32.3
+BarcodePro Global is a lightweight, industrial-grade barcode and label generation solution. Designed for logistics, warehousing, and retail environments, it supports 9 major global languages and provides high-precision layout control for professional printing.
 
-A powerful, browser-based bulk barcode and QR code generator designed for logistics, warehouse management, and small businesses.
+🌟 Core Features (v32.3)
+Comprehensive Format Support: Generate Code 128, GS1-128, EAN-13, UPC-A, Code 39, QR Code, and PDF417.
 
+9-Language Multi-Lingual Engine: Full support for English, Spanish, French, German, Italian, Russian, Chinese, Japanese, and Korean with seamless UI switching.
 
+Industrial Grid Alignment: Features a robust CSS Grid-based locking system ensuring all fields (A1-A3, B1-B3) remain perfectly aligned across all devices.
 
-## 🚀 Key Features
+Batch Processing: Import hundreds of label entries instantly via Excel (.xlsx) files.
 
-- **Multi-Format Support**: Generate Code 128, EAN-13, Code 39, and high-density **PDF417** or **Data Matrix**.
-- **Excel Batch Processing**: Import data directly from `.xlsx` files to generate hundreds of labels in seconds.
-- **Pure Offline Capability**: Powered by Service Worker (PWA). No internet required after the first load. Data stays on your device—100% private.
-- **Image Export**: Export labels as high-quality PNG images for easy sharing or professional printing.
-- **Multi-Language**: Built-in support for English, Chinese, Japanese, Korean, Spanish, French, and German.
+Configuration Management: Export your preferred font settings and sizes to a JSON file and import them anytime to restore your workspace.
 
-## 🛠 Tech Stack
+Print Optimization: Specifically engineered to eliminate "blank first page" bugs and includes optimized vertical spacing between barcodes to prevent scanner interference.
 
-- **Core Engines**: [bwip-js](https://github.com/metafloor/bwip-js) (Advanced Barcodes), [jsbarcode](https://github.com/lindell/JsBarcode).
-- **QR Engine**: [qrcode.js](https://github.com/davidshimjs/qrcodejs).
-- **Data Handling**: [SheetJS (XLSX)](https://github.com/SheetJS/sheetjs).
-- **Rendering**: [html2canvas](https://github.com/niklasvh/html2canvas).
+🛠️ Quick Start Guide for Testers
+1. Manual Generation
+Select your preferred Language from the Basic Info section.
 
-## 📦 How to Use
+Enter a Title (e.g., "Cargo ID" or "Shipping Label").
 
-1. **Manual Entry**: Type your data (one per line) in the text area.
-2. **Excel Import**: Upload your spreadsheet; the first column will be used as the data source.
-3. **Settings**: Choose your protocol (e.g., PDF417), set the title, and adjust scales.
-4. **Action**: Click "Generate" to preview, then "Print" or "Save as PNG".
+Choose your barcode types under Barcode Formats and adjust the Scale as needed.
 
-## 🛡 Privacy & Security
+Click Generate to preview your label.
 
-This application is a **Client-Side Only** tool. 
-- No data is uploaded to any server.
-- No tracking or analytics cookies.
-- Perfect for sensitive inventory and internal business data.
+2. Batch Import (Excel)
+Prepare an Excel file with two column headers: Title and Value.
 
-## 📄 License
+Click the green "Data from Excel" button to upload.
 
-MIT License - Feel free to use for personal or commercial projects.
+The app will automatically generate individual labels for every row in your sheet.
+
+3. Saving Your Setup
+Once you find the perfect font and size combination, click Export Config.
+
+To restore your settings later, click Import Config and select your saved JSON file.
+
+4. Printing Tips
+Click Print.
+
+In the print dialogue, set Margins to "None".
+
+Note: Version 32.3 includes a standard line-height gap (approx. 20px) between barcodes to make manual cutting easier.
