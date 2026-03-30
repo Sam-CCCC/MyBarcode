@@ -1,47 +1,42 @@
-// 每次修改代码后，手动改一下版本号（v3, v4...）
-const CACHE_NAME = 'mybarcode-v4';
-
+const CACHE_NAME = 'barcodepro-v32.3'; // 只要改这里的版本号，浏览器就会识别为新版本
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './js/jsbarcode.js',
-  './js/qrcode.js',
-  './js/xlsx.js',
-  './js/bwipjs.js',
-  './js/html2canvas.js',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  'https://cdn.jsdelivr.net/npm/bwip-js@3.0.4/dist/bwip-js-min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'
 ];
 
-self.addEventListener('install', (event) => {
+// 安装阶段：缓存新资源
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      // addAll 如果其中有一个文件路径错了，整个 Service Worker 就会安装失败
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting()) // 强制立即激活
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
-  );
-});
-
-// 激活时清理旧缓存
-self.addEventListener('activate', (event) => {
+// 激活阶段：清理旧版本的旧缓存
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.map((cacheName) => {
+        cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Cleaning old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
+    })
+  );
+});
+
+// 策略：网络优先，离线回退（适合需要经常更新的App）
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });
