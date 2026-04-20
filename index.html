@@ -3,27 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BarcodePro Global v2.2</title>
+    <title>BarcodePro Global v2.6</title>
     <script src="./js/bwip-js-min.js"></script>
     <script src="./js/xlsx.full.min.js"></script>
     <style>
         :root { --primary: #1a73e8; --bg: #f8f9fa; --border: #dadce0; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #202124; }
-        .app-bar { background: #202124; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        .app-bar { background: #202124; color: white; padding: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
         .container { max-width: 1200px; margin: 15px auto; padding: 0 15px; }
         .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .section-title { font-size: 0.85rem; font-weight: 800; color: #5f6368; text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
-        .input-row-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .core-params-row { display: grid; grid-template-columns: 1.5fr 2fr 0.8fr 0.8fr; gap: 12px; margin-bottom: 15px; align-items: end; }
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
-        .check-group { display: flex; align-items: center; gap: 8px; height: 45px; }
-        label { font-size: 0.75rem; font-weight: 700; color: #5f6368; }
-        input, select { padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; }
-        .action-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 15px; }
-        button { padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; text-transform: uppercase; font-size: 0.65rem; transition: opacity 0.2s; }
+        .section-title { font-size: 0.8rem; font-weight: 800; color: #5f6368; text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .input-row-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .core-params-row { display: grid; grid-template-columns: 1.5fr 2fr 0.8fr 0.8fr; gap: 12px; margin-bottom: 12px; align-items: end; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        
+        /* 彻底修复：去除容器 onclick，依靠 label 绑定原生 Checkbox */
+        .check-group { display: flex; align-items: center; gap: 8px; height: 40px; }
+        label { font-size: 0.7rem; font-weight: 700; color: #5f6368; }
+        
+        input[type="text"], input[type="number"], select { 
+            padding: 10px; border: 1px solid var(--border); border-radius: 8px; 
+            font-size: 0.9rem; outline: none; background: #fff;
+            appearance: none; -webkit-appearance: none;
+        }
+
+        /* 恢复 Checkbox 的标准外观和功能 */
+        input[type="checkbox"] {
+            width: 20px; height: 20px; cursor: pointer;
+            margin: 0; padding: 0;
+            accent-color: var(--primary);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+
+        .action-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-top: 15px; }
+        button { padding: 12px 8px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; color: white; text-transform: uppercase; font-size: 0.6rem; transition: opacity 0.2s; }
         .btn-blue { background: var(--primary); } .btn-green { background: #34a853; } .btn-gold { background: #fbbc04; color: #202124; } .btn-dark { background: #3c4043; }
         
-        #previewArea { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 25px; padding-bottom: 100px; }
+        #previewArea { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px; padding-bottom: 100px; }
         .label-item { background: white; padding: 15px 10px; border: 1px dashed #ccc; border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 180px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); page-break-inside: avoid; margin: 5px; text-align: center; }
         .field-box { width: 100%; margin: 2px 0; line-height: 1.2; word-break: break-all; }
         .barcode-container { width: 100%; display: flex; justify-content: center; margin: 8px 0; }
@@ -31,9 +53,9 @@
         .barcode-value-text { width: 100%; font-weight: 600; font-family: 'Courier New', monospace; text-align: center; margin-top: 4px; word-wrap: break-word; }
 
         @media (max-width: 768px) {
-            .core-params-row { grid-template-columns: 1fr; }
+            .core-params-row { grid-template-columns: 1fr; gap: 10px; }
             #group-a2, #group-a3, #group-b2, #group-b3, .font-group { display: none !important; }
-            .label-item { width: 95%; }
+            .action-bar { grid-template-columns: 1fr 1fr; }
         }
 
         @media print { 
@@ -46,7 +68,7 @@
 </head>
 <body>
 
-<div class="app-bar"><h1 id="ui-title">BarcodePro v2.2</h1></div>
+<div class="app-bar"><h1 id="ui-title">BarcodePro v2.6</h1></div>
 
 <div class="container">
     <div class="card">
@@ -55,16 +77,11 @@
             <div class="input-group">
                 <label id="lbl-lang">Language</label>
                 <select id="uiLang" onchange="updateLanguage()">
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Français</option>
-                    <option value="de">Deutsch</option>
-                    <option value="it">Italiano</option>
-                    <option value="zh-cn">简体中文</option>
-                    <option value="zh-tw">繁體中文</option>
-                    <option value="ja">日本語</option>
-                    <option value="ko">한국어</option>
-                    <option value="ru">Русский</option>
+                    <option value="en">English</option><option value="es">Español</option>
+                    <option value="fr">Français</option><option value="de">Deutsch</option>
+                    <option value="it">Italiano</option><option value="zh-cn">简体中文</option>
+                    <option value="zh-tw">繁體中文</option><option value="ja">日本語</option>
+                    <option value="ko">한국어</option><option value="ru">Русский</option>
                 </select>
             </div>
             <div class="input-group"><label id="lbl-title">Main Title</label><input type="text" id="m-title" value="CARGO"></div>
@@ -75,13 +92,13 @@
         <div class="core-params-row">
             <div class="input-group">
                 <label id="lbl-type">Type</label>
-                <select id="barcodeType">
-                    <optgroup label="1D Logistics">
+                <select id="barcodeType" onchange="generate()">
+                    <optgroup label="1D Barcodes">
                         <option value="code128">Code 128</option>
                         <option value="code39">Code 39</option>
                         <option value="gs1-128">GS1-128</option>
-                        <option value="ean13">EAN-13 (Standard)</option>
-                        <option value="upca">UPC-A (Standard)</option>
+                        <option value="ean13">EAN-13</option>
+                        <option value="upca">UPC-A</option>
                     </optgroup>
                     <optgroup label="2D Codes">
                         <option value="datamatrix">Data Matrix</option>
@@ -92,31 +109,31 @@
             </div>
             <div class="input-group">
                 <label id="lbl-value">Barcode Value</label>
-                <input type="text" id="barcodeValue" placeholder="Enter Content">
+                <input type="text" id="barcodeValue" placeholder="Scan or Enter">
             </div>
             <div class="check-group">
-                <input type="checkbox" id="showText" checked>
-                <label for="showText" id="lbl-show" style="cursor:pointer">Print Text</label>
+                <input type="checkbox" id="showText" checked onchange="generate()">
+                <label for="showText" id="lbl-show" style="cursor:pointer; font-size:0.85rem">Print Text</label>
             </div>
-            <div class="input-group"><label id="lbl-scale">Scale</label><input type="number" id="barcodeScale" value="3"></div>
+            <div class="input-group"><label id="lbl-scale">Scale</label><input type="number" id="barcodeScale" value="3" onchange="generate()"></div>
         </div>
     </div>
 
     <div class="card">
         <div class="section-title" id="sec-fields">Custom Items</div>
         <div class="input-row-grid">
-            <div class="input-group" id="group-a1"><label id="lbl-a1">A1</label><input type="text" id="a1-v"><select id="a1-f" class="font-selector font-group"></select><input type="number" id="a1-s" value="12"></div>
+            <div class="input-group" id="group-a1"><label id="lbl-a1">A1</label><input type="text" id="a1-v" oninput="generate()"><select id="a1-f" class="font-selector font-group"></select><input type="number" id="a1-s" value="12" onchange="generate()"></div>
             <div class="input-group" id="group-a2"><label id="lbl-a2">A2</label><input type="text" id="a2-v"><select id="a2-f" class="font-selector font-group"></select><input type="number" id="a2-s" value="12"></div>
             <div class="input-group" id="group-a3"><label id="lbl-a3">A3</label><input type="text" id="a3-v"><select id="a3-f" class="font-selector font-group"></select><input type="number" id="a3-s" value="12"></div>
         </div>
         <div class="input-row-grid" style="margin-top:15px">
-            <div class="input-group" id="group-b1"><label id="lbl-b1">B1</label><input type="text" id="b1-v"><select id="b1-f" class="font-selector font-group"></select><input type="number" id="b1-s" value="10"></div>
+            <div class="input-group" id="group-b1"><label id="lbl-b1">B1</label><input type="text" id="b1-v" oninput="generate()"><select id="b1-f" class="font-selector font-group"></select><input type="number" id="b1-s" value="10" onchange="generate()"></div>
             <div class="input-group" id="group-b2"><label id="lbl-b2">B2</label><input type="text" id="b2-v"><select id="b2-f" class="font-selector font-group"></select><input type="number" id="b2-s" value="10"></div>
             <div class="input-group" id="group-b3"><label id="lbl-b3">B3</label><input type="text" id="b3-v"><select id="b3-f" class="font-selector font-group"></select><input type="number" id="b3-s" value="10"></div>
         </div>
         <div class="action-bar">
             <button class="btn-blue" onclick="generate()" id="btn-gen">Generate</button>
-            <button class="btn-green" onclick="document.getElementById('xlIn').click()" id="btn-excel">Data From Excel</button>
+            <button class="btn-green" onclick="document.getElementById('xlIn').click()" id="btn-excel">DATA FROM EXCEL</button>
             <button class="btn-gold" onclick="exportConfig()" id="btn-exp">Format Export</button>
             <button class="btn-gold" onclick="document.getElementById('confIn').click()" id="btn-imp">Format Import</button>
             <button class="btn-dark" onclick="window.navigator.vibrate(50); window.print()" id="btn-pri">Print Labels</button>
@@ -130,16 +147,16 @@
 <script>
     const fonts = ["Arial", "Courier New", "Georgia", "Impact", "Verdana"];
     const i18n = {
-        en: { title: "BarcodePro v2.2", sb: "Basic Settings", sf: "Custom Items", lang: "Language", main: "Main Title", font: "Font", size: "Size", type: "Type", val: "Barcode Value", show: "Print Text", scale: "Scale", gen: "Generate", xl: "Data From Excel", exp: "Format Export", imp: "Format Import", pri: "Print Labels" },
-        "zh-cn": { title: "条码大师 v2.2", sb: "基本设置", sf: "自定义项目", lang: "语言选择", main: "主标题", font: "字体", size: "字号", type: "类型", val: "条码内容", show: "打印文本", scale: "比例", gen: "生成标签", xl: "从Excel获取数据", exp: "导出配置格式", imp: "导入配置格式", pri: "打印标签" },
-        "zh-tw": { title: "條碼大師 v2.2", sb: "基本設置", sf: "自定義項目", lang: "語言選擇", main: "主標題", font: "字體", size: "字號", type: "類型", val: "條碼內容", show: "打印文本", scale: "比例", gen: "生成標籤", xl: "從Excel獲取數據", exp: "導出配置格式", imp: "導入配置格式", pri: "打印標籤" },
-        es: { title: "BarcodePro v2.2", sb: "Ajustes", sf: "Artículos", lang: "Idioma", main: "Título", font: "Fuente", size: "Tamaño", type: "Tipo", val: "Valor", show: "Texto", scale: "Escala", gen: "Generar", xl: "Excel", exp: "Exportar", imp: "Importar", pri: "Imprimir" },
-        fr: { title: "BarcodePro v2.2", sb: "Réglages", sf: "Articles", lang: "Langue", main: "Titre", font: "Police", size: "Taille", type: "Type", val: "Valeur", show: "Texte", scale: "Échelle", gen: "Générer", xl: "Excel", exp: "Exporter", imp: "Importer", pri: "Imprimer" },
-        de: { title: "BarcodePro v2.2", sb: "Einstellungen", sf: "Elemente", lang: "Sprache", main: "Titel", font: "Schrift", size: "Größe", type: "Typ", val: "Wert", show: "Text", scale: "Skala", gen: "Erzeugen", xl: "Excel", exp: "Export", imp: "Import", pri: "Drucken" },
-        it: { title: "BarcodePro v2.2", sb: "Impostazioni", sf: "Elementi", lang: "Lingua", main: "Titolo", font: "Font", size: "Dimensione", type: "Tipo", val: "Valore", show: "Stampa", scale: "Scala", gen: "Genera", xl: "Excel", exp: "Esporta", imp: "Importa", pri: "Stampa" },
-        ja: { title: "バーコード v2.2", sb: "基本設定", sf: "項目設定", lang: "言語", main: "タイトル", font: "フォント", size: "サイズ", type: "形式", val: "内容", show: "印刷", scale: "倍率", gen: "生成", xl: "Excel", exp: "エクスポート", imp: "インポート", pri: "印刷" },
-        ko: { title: "바코드 v2.2", sb: "기본 설정", sf: "사용자 항목", lang: "언어", main: "제목", font: "글꼴", size: "크기", type: "종류", val: "값", show: "텍스트", scale: "배율", gen: "생성", xl: "Excel", exp: "내보내기", imp: "가져오기", pri: "인쇄" },
-        ru: { title: "BarcodePro v2.2", sb: "Настройки", sf: "Элементы", lang: "Язык", main: "Заголовок", font: "Шрифт", size: "Размер", type: "Тип", val: "Значение", show: "Текст", scale: "Масштаб", gen: "Создать", xl: "Excel", exp: "Экспорт", imp: "Импорт", pri: "Печать" }
+        en: { title: "BarcodePro v2.6", sb: "Basic Settings", sf: "Custom Items", lang: "Language", main: "Main Title", font: "Font", size: "Size", type: "Type", val: "Barcode Value", show: "Print Text", scale: "Scale", gen: "Generate", xl: "DATA FROM EXCEL", exp: "Format Export", imp: "Format Import", pri: "Print Labels" },
+        "zh-cn": { title: "条码大师 v2.6", sb: "基本设置", sf: "自定义项目", lang: "语言选择", main: "主标题", font: "字体", size: "字号", type: "类型", val: "条码内容", show: "打印文本", scale: "精度", gen: "生成标签", xl: "DATA FROM EXCEL", exp: "导出配置格式", imp: "导入配置格式", pri: "打印标签" },
+        "zh-tw": { title: "條碼大師 v2.6", sb: "基本設置", sf: "自定義項目", lang: "語言選擇", main: "主標題", font: "字體", size: "字號", type: "類型", val: "條碼內容", show: "打印文本", scale: "精度", gen: "生成標籤", xl: "DATA FROM EXCEL", exp: "導出配置格式", imp: "導入配置格式", pri: "打印標籤" },
+        es: { title: "BarcodePro v2.6", sb: "Ajustes", sf: "Artículos", lang: "Idioma", main: "Título", font: "Fuente", size: "Tamaño", type: "Tipo", val: "Valor", show: "Texto", scale: "Escala", gen: "Generar", xl: "DATA FROM EXCEL", exp: "Exportar", imp: "Importar", pri: "Imprimir" },
+        fr: { title: "BarcodePro v2.6", sb: "Réglages", sf: "Articles", lang: "Langue", main: "Titre", font: "Police", size: "Taille", type: "Type", val: "Valeur", show: "Texte", scale: "Échelle", gen: "Générer", xl: "DATA FROM EXCEL", exp: "Exporter", imp: "Importer", pri: "Imprimer" },
+        de: { title: "BarcodePro v2.6", sb: "Einstellungen", sf: "Elemente", lang: "Sprache", main: "Titel", font: "Schrift", size: "Größe", type: "Typ", val: "Wert", show: "Text", scale: "Skala", gen: "Erzeugen", xl: "DATA FROM EXCEL", exp: "Export", imp: "Import", pri: "Drucken" },
+        it: { title: "BarcodePro v2.6", sb: "Impostazioni", sf: "Elementi", lang: "Lingua", main: "Titolo", font: "Font", size: "Dimensione", type: "Tipo", val: "Valore", show: "Stampa", scale: "Scala", gen: "Genera", xl: "DATA FROM EXCEL", exp: "Esporta", imp: "Importa", pri: "Stampa" },
+        ja: { title: "バーコード v2.6", sb: "基本設定", sf: "項目設定", lang: "言語", main: "タイトル", font: "フォント", size: "サイズ", type: "形式", val: "内容", show: "印刷", scale: "倍率", gen: "生成", xl: "DATA FROM EXCEL", exp: "エクスポート", imp: "インポート", pri: "印刷" },
+        ko: { title: "바코드 v2.6", sb: "기본 설정", sf: "사용자 항목", lang: "언어", main: "제목", font: "글꼴", size: "크기", type: "종류", val: "값", show: "텍스트", scale: "배율", gen: "생성", xl: "DATA FROM EXCEL", exp: "내보내기", imp: "가져오기", pri: "인쇄" },
+        ru: { title: "BarcodePro v2.6", sb: "Настройки", sf: "Элементы", lang: "Язык", main: "Заголовок", font: "Шrift", size: "Размер", type: "Тип", val: "Значение", show: "Текст", scale: "Масштаб", gen: "Создать", xl: "DATA FROM EXCEL", exp: "Экспорт", imp: "Импорт", pri: "Печать" }
     };
 
     function initFonts() {
@@ -177,8 +194,14 @@
         const inputs = document.querySelectorAll('input, select');
         inputs.forEach(el => {
             const saved = localStorage.getItem('autosave_' + el.id);
-            if (saved !== null) el.value = saved;
-            el.addEventListener('input', () => localStorage.setItem('autosave_' + el.id, el.value));
+            if (saved !== null) {
+                if(el.type === 'checkbox') el.checked = (saved === 'true');
+                else el.value = saved;
+            }
+            el.addEventListener('change', () => {
+                const val = el.type === 'checkbox' ? el.checked : el.value;
+                localStorage.setItem('autosave_' + el.id, val);
+            });
         });
     }
 
@@ -187,6 +210,7 @@
         const item = document.createElement('div');
         item.className = 'label-item';
         const isMobile = window.innerWidth <= 768;
+        const isShowText = document.getElementById('showText').checked;
         
         const addField = (val, fontId, sizeId, isBarcodeText = false, scaleVal = 3) => { 
             if(!val) return; 
@@ -209,33 +233,21 @@
         const canvas = document.createElement('canvas');
         const type = document.getElementById('barcodeType').value;
         const sc = parseFloat(document.getElementById('barcodeScale').value) || 3;
-        const isShowText = document.getElementById('showText').checked;
 
         try {
-            // V2.2 核心优化：针对零售码 (EAN/UPC) 的下挂线条处理
-            let options = {
-                bcid: type,
-                text: String(mValue || ""),
-                scale: sc,
-                monochrome: true,
-                parsefnc: true
-            };
-
-            // 如果是零售码，开启下挂线条形态
+            let options = { bcid: type, text: String(mValue || ""), scale: sc, monochrome: true, parsefnc: true };
             if (type === 'ean13' || type === 'upca') {
-                options.includetext = isShowText; // 让库自动渲染底部数字以对齐长线条
+                options.includetext = isShowText;
                 options.guardwhitespace = true;
-                options.guardheight = 10; // 下挂线条的高度比普通线条多出的百分比
+                options.guardheight = isShowText ? 10 : 0;
             } else {
-                options.includetext = false; // 物流码仍然使用 HTML 渲染文字以保证极致居中
+                options.includetext = false;
             }
-
-            bwipjs.toCanvas(canvas, { ...options });
+            bwipjs.toCanvas(canvas, options);
             bContainer.appendChild(canvas);
-        } catch(e) { console.error("渲染失败:", e); }
+        } catch(e) { console.error(e); }
         item.appendChild(bContainer);
 
-        // 只有物流码才需要 HTML 渲染文字，零售码已内置
         if(isShowText && type !== 'ean13' && type !== 'upca') {
             addField(mValue, 'm-font', 'm-size', true, sc);
         }
@@ -244,7 +256,6 @@
             if(isMobile && (id === 'b2' || id === 'b3')) return;
             addField(document.getElementById(id+'-v').value, id+'-f', id+'-s');
         });
-
         area.appendChild(item);
     }
 
