@@ -16,8 +16,6 @@
         .input-row-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px; }
         .core-params-row { display: grid; grid-template-columns: 1.5fr 2fr 0.8fr 0.8fr; gap: 12px; margin-bottom: 12px; align-items: end; }
         .input-group { display: flex; flex-direction: column; gap: 5px; }
-        
-        /* 彻底修复：去除容器 onclick，依靠 label 绑定原生 Checkbox */
         .check-group { display: flex; align-items: center; gap: 8px; height: 40px; }
         label { font-size: 0.7rem; font-weight: 700; color: #5f6368; }
         
@@ -27,7 +25,6 @@
             appearance: none; -webkit-appearance: none;
         }
 
-        /* 恢复 Checkbox 的标准外观和功能 */
         input[type="checkbox"] {
             width: 20px; height: 20px; cursor: pointer;
             margin: 0; padding: 0;
